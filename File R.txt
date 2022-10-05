@@ -1,0 +1,59 @@
+﻿library(agricolae)
+library(factoextra)
+library(xlsx)
+setwd("E://Analyses//Znb//New")
+
+
+########### LSD #############
+a = read.xlsx("data 25-7-20.xlsx",1)
+rownames(a)=a[,1]
+########## PCA ########
+pc = prcomp(a[,4:16])
+tr = a$Treatment
+fviz_pca_biplot(pc, col.ind = tr, palette = c(1,2,3,4,5,6,7,8), addEllipses = TRUE, label = "all", col.var = "black", repel = TRUE, legend.title = "Treatment")
+
+########################
+
+
+a$ Treatment = as.factor(a$ Treatment)
+a$ Variety = as.factor(a$ Variety)
+
+
+par(mfrow=c(4,4))
+boxplot(a[,3] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Plant height")
+boxplot(a[,3] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Plant height")
+boxplot(a[,4] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Chlorophyll")
+boxplot(a[,4] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Chlorophyll")
+boxplot(a[,5] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Fresh weight")
+boxplot(a[,5] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Fresh weight")
+boxplot(a[,6] ~ a$Treatment, xlab = "Treatment", ylab = "Number of tillers", main = "Dry weight")
+boxplot(a[,6] ~ a$Variety, xlab = "Variety", ylab = "Number of tillers", main = "Dry weight")
+boxplot(a[,7] ~ a$Treatment, xlab = "Treatment", ylab = "Number of flowers", main = "No. of roots")
+boxplot(a[,7] ~ a$Variety, xlab = "Variety", ylab = "Number of flowers", main = "No. of roots")
+boxplot(a[,8] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Root length")
+boxplot(a[,8] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Root length")
+boxplot(a[,9] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "No. of shoots")
+boxplot(a[,9] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "No. of shoots")
+boxplot(a[,10] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "No. of leaves")
+boxplot(a[,10] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "No. of leaves")
+boxplot(a[,11] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Total sugar")
+boxplot(a[,11] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Total sugar")
+boxplot(a[,12] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Proline")
+boxplot(a[,12] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Proline")
+boxplot(a[,13] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Proteins")
+boxplot(a[,13] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Proteins")
+boxplot(a[,14] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Potassium")
+boxplot(a[,14] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Potassium")
+boxplot(a[,15] ~ a$Treatment, xlab = "Treatment", ylab = "Centimeters", main = "Sodium")
+boxplot(a[,15] ~ a$Variety, xlab = "Variety", ylab = "Centimeters", main = "Sodium")
+
+par(new=TRUE)
+boxplot(a[,5] ~ a$treatment, xlab = "Treatment", ylab = "GP4D", main = "GP4D")
+boxplot(a[,6] ~ a$treatment, xlab = "Treatment", ylab = "GP6D", main = "GP6D")
+boxplot(a[,7] ~ a$treatment, xlab = "Treatment", ylab = "RL(centimeters)", main = "RL(centimeters)")
+boxplot(a[,8] ~ a$treatment, xlab = "Treatment", ylab = "RW(grams)", main = "RW(grams)")
+boxplot(a[,9] ~ a$treatment, xlab = "Treatment", ylab = "PL(centimeters)", main = "PL(centimeters)")
+boxplot(a[,10] ~ a$treatment, xlab = "Treatment", ylab = "PW(grams)", main = "PW(grams)")
+
+
+
