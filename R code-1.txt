@@ -1,0 +1,152 @@
+﻿library(circlize)
+library(xlsx)
+setwd("E:/Analyses/Zainab Khan/new5")
+a=read.xlsx("Scores.xlsx",1)
+
+
+
+#pdf("pdf.pdf", width=150, height=150)
+chordDiagram(a, annotationTrack = "grid", small.gap = 1, transparency = 0.25, directional = 1, direction.type = c("diffHeight", "arrows"), link.arr.type = "big.arrow", diffHeight = -0.04, link.sort = TRUE, link.largest.ontop = TRUE, preAllocateTracks = list(track.height = 0.25))
+circos.track(track.index = 1, bg.border = NA, panel.fun = function(x, y) {
+  s = get.cell.meta.data("sector.index")
+  xx = get.cell.meta.data("xlim")
+  circos.text(x = mean(xx), y = 0.2, 
+              labels = s, cex = 0.5, adj = c(0, 0.5),
+              facing = "clockwise", niceFacing = TRUE)
+  circos.axis(h = "bottom",
+              labels.cex = 0.5,
+              labels.pos.adjust = FALSE,
+              labels.niceFacing = FALSE)
+})
+
+
+for(si in get.all.sector.index()) {
+ xlim = get.cell.meta.data("xlim", sector.index = si, track.index = 1)
+ ylim = get.cell.meta.data("ylim", sector.index = si, track.index = 1)
+ circos.text(mean(xlim),ylim[1], si, sector.index = si, track.index = 1,
+ facing = "clockwise",
+ cex=1,
+ adj=c(-1,0),
+ niceFacing = TRUE)
+ circos.axis(h = 0,
+ major.at = c(0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5) ,
+ labels.cex = 0.2,labels.facing = "inside",
+ sector.index = si, track.index = 1)
+ }
+dev.off()
+
+
+
+circos.trackPlotRegion(track.index = 2, panel.fun = function(x, y) {
+xlim = get.cell.meta.data("xlim")
+ylim = get.cell.meta.data("ylim")
+sector.name = get.cell.meta.data("sector.index")
+circos.text(mean(xlim), ylim[1] + 2.5, sector.name, 
+facing = "clockwise", niceFacing = TRUE, adj = c(0, 0.5), cex=0.7)
+circos.axis(h = "top", labels.cex = 0.7, major.tick.percentage = 0.2,
+sector.index = sector.name, track.index = 2)
+}, bg.border = NA)
+
+
+
+
+
+
+chordDiagram(a, annotationTrack = "grid")
+
+circos.trackPlotRegion(track.index = 2, panel.fun = function(x, y) {
+xlim = get.cell.meta.data("xlim")
+ylim = get.cell.meta.data("ylim")
+sector.name = get.cell.meta.data("sector.index")
+circos.text(mean(xlim), ylim[1] + 2.5, sector.name, 
+facing = "clockwise", niceFacing = TRUE, adj = c(0, 0.5), cex=0.7)
+circos.axis(h = "top", labels.cex = 0.7, major.tick.percentage = 0.2,
+sector.index = sector.name, track.index = 2)
+}, bg.border = NA)
+
+
+
+
+
+
+
+boxplot(a$Drug ~ a$Pop, col=c("skyblue", "gold"), xlab="Populations", ylab="Weekly doses(mg)", main="Comparative doses profiling")
+abline(h=c(21,49), lwd=3, lty=2, col="red")
+text(1.5, 52, "Doses >= 49")
+text(1.5, 19, "Doses <= 21")
+
+pc = prcomp(a)
+
+fviz_mfa_ind(pc, habillage = a$Origin, palette = c("#00AFBB", "#E7B800"), addEllipses = TRUE, ellipse.type = "confidence", repel = TRUE, xlab = "PC1(93.66%)", ylab="PC2(5.2%)", title="Principal component analyses of Pea")
+
+
+
+
+
+
+
+
+library(circlize)
+
+test = c(8,6,1,1,1,1,1)
+names(test) = c("Hydrogen bonding" , "Binding energies", "Gramicidin A", "Tricyclic peptide RP", "RTD-1", "Protegrin 2", "Kalata B1")
+circos.initialize(1:7, xlim = c(0, 1), sector.width = test)
+circos.track(ylim = c(0, 1), bg.col = c("yellow", "yellow", "yellow", "lightblue", "lightblue", "#810120", "#810120", "#810120", "#8E1A36", "#8E1A36", "#8E1A36", "#8E1A36", "#8E1A36", "#8E1A36", "#9A344D", "#9A344D", "#9A344D", "#9A344D", "#A74D63", "#A74D63", "#A74D63", "#A74D63", "#A74D63", "#A74D63", "#A74D63"), bg.border = NA)
+circos.text(5.5, 1.4, "Binding energy(Kcal/mol)", facing = "outside", cex = 0.7)
+circos.text(13.5, 1.4, "Hydrogen bonding", facing = "outside", cex = 0.7)
+circos.text(17.5, 1.4, "Gramicidin A", facing = "outside", cex = 0.7)
+circos.text(18.8, 1.4, "Tricyclic peptide RP", facing = "outside", cex = 0.7)
+circos.text(20, 1.4, "RTD-1", facing = "outside", cex = 0.7)
+circos.text(21.2, 1.4, "Protegrin 2", facing = "outside", cex = 0.7)
+circos.text(22.3, 1.4, "Kalata B1", facing = "outside", cex = 0.7)
+
+# 4th parameter for changing direction
+
+# Binding energy -9.6 -9.2 -11 -9.4 -9.3
+# Hydrogen bonds 11 8 13 10 7
+
+circos.link(3, c(1, 0.1), 1, 0.096, col="#810120", 1, 0.78, 0.7)
+circos.link(4, c(1, 0.1), 1, 0.092, col="#8E1A36", 1, 0.78, 0.7)
+circos.link(5, c(1, 0.1), 1, 0.11, col="#9A344D", 1, 0.78, 0.7)
+circos.link(6, c(1, 0.1), 1, 0.094, col="#A74D63", 1, 0.78, 0.7)
+circos.link(7, c(1, 0.1), 1, 0.093, col="#B36779", 1, 0.78, 0.7)
+
+circos.link(3, c(1, 0.1), 2, 0.11, col="#810120", 1, 0.78, 0.7)
+circos.link(4, c(1, 0.1), 2, 0.08, col="#8E1A36", 1, 0.78, 0.7)
+circos.link(5, c(1, 0.1), 2, 0.13, col="#9A344D", 1, 0.78, 0.7)
+circos.link(6, c(1, 0.1), 2, 0.1, col="#A74D63", 1, 0.78, 0.7)
+circos.link(7, c(1, 0.1), 2, 0.07, col="#B36779", 1, 0.78, 0.7)
+
+pdf("pdf.pdf")
+chordDiagram(a,annotationTrack = "grid")
+for(si in get.all.sector.index()) {
+ xlim = get.cell.meta.data("xlim", sector.index = si, track.index = 1)
+ ylim = get.cell.meta.data("ylim", sector.index = si, track.index = 1)
+ circos.text(mean(xlim),ylim[1], si, sector.index = si, track.index = 1, 
+ facing = "clockwise", 
+ cex=0.4, 
+ adj=c(-1,0),
+ niceFacing = TRUE)
+ circos.axis(h = 0,
+ major.at = c(0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5) ,
+ labels.cex = 0.2,labels.facing = "inside", 
+ sector.index = si, track.index = 1)
+ }
+
+dev.off();
+
+
+sectors = c("Hydrogen bonding" , "Binding energies", "Gramicidin A", "Tricyclic peptide RP", "RTD-1", "Protegrin 2", "Kalata B1")
+circos.par(points.overflow.warning = FALSE)
+circos.initialize(sectors, xlim = c(0,1), sector.width = c(8,6,1,1,1,1,1))
+a = c(0,8)
+b = c(0,6)
+c = c(0,1)
+d = c(0,1)
+e = c(0,1)
+f = c(0,1)
+g = c(0,1)
+ylim=rbind(a,b,c,d,e,f,g)
+circos.trackPlotRegion(sectors, ylim = ylim, track.height = 0.1, bg.border = NA)
+circos.text(5, 10, get.cell.meta.data("sector.index"))
+circos.axis(sector.index = sectors)
