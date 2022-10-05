@@ -1,1 +1,2 @@
-# PIAIC_ONSITE_CLASS
+# PIAIC-assignments
+remote repo creating and submitting all the assignment of presidential innitiative for artificial intelligence.

@@ -1,0 +1,36 @@
+﻿library(xlsx)
+library(poppr)
+library(agricolae)
+library(factoextra)
+library(dendextend)
+a=read.xlsx("E:/Analyses/Zainab/B1/Scoring.xlsx",1)
+a=a[,-1]
+
+obj <- df2genind(a, ploidy=2, ncode=1, type="PA", pop=c(rep("Pop1",72),rep("Control",5)))
+obj
+summary(obj)
+ne = nei.dist(obj, warning = TRUE)
+dt = as.matrix(ne)
+ne = upper.tri(dt)
+ne = dt[upper.tri(dt)] <- 0
+write.xlsx(dt, "neis cofficient.xlsx", sheetName="Sheet1")
+
+ne = nei.dist(obj, warning = TRUE)
+hc = hclust(ne, method = "complete")
+
+plot(hc, labels = rownames(a), hang = -1, check = TRUE, axes = TRUE, frame.plot = FALSE, ann = TRUE, main = "Potato cluster diagram", sub = NULL, xlab = NULL, ylab = "Nei's Coefficient", cex = 0.7)
+
+dend <- hc %>% as.dendrogram %>%
+   set("branches_k_color", k=5) %>% set("branches_lwd", 1.2) %>%
+   set("labels") %>% set("labels_cex", c(.9,.9)) %>% 
+   set("leaves_pch", 19) %>% set("leaves_col", c("blue", "red", "brown", "green", "maroon"))
+plot(dend)
+
+Aeut=obj
+adist <- diss.dist(Aeut, percent = TRUE)
+amsn <- poppr.msn(Aeut, adist, showplot = FALSE)
+library("igraph") # To get all the layouts.
+set.seed(500)
+plot_poppr_msn(Aeut, amsn, gadj = 15, nodescale = 300)
+
+
