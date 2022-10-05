@@ -1,0 +1,40 @@
+GnomAD, NFE, FIN, SAS and AMI
+
+
+
+library(xlsx)
+a=read.xlsx("E:/Analyses/Zainab Khan/new3/Adalimumab_AC.xlsx",1)
+
+a1<-prop.test(c(39704,6456),c(79342,79342))[3]$p.value
+a2<-prop.test(c(61270,18496),c(122462,122462))[3]$p.value
+a3<-prop.test(c(40273,6969),c(80435,80435))[3]$p.value
+a4<-prop.test(c(21030,4702),c(42022,42022))[3]$p.value
+a5<-prop.test(c(21830,3529),c(43617,43617))[3]$p.value
+a6<-prop.test(c(86241,31681),c(172350,172350))[3]$p.value
+a7<-prop.test(c(95834,14375),c(191443,191443))[3]$p.value
+a8<-prop.test(c(55358,15645),c(110592,110592))[3]$p.value
+a9<-prop.test(c(42546,18506),c(85010,85010))[3]$p.value
+a10<-prop.test(c(55383,19374),c(110666,110666))[3]$p.value
+a11<-prop.test(c(16433,2618),c(32814,32814))[3]$p.value
+a12<-prop.test(c(53025,14134),c(105958,105958))[3]$p.value
+a13<-prop.test(c(84805,17710),c(169415,169415))[3]$p.value
+a14<-prop.test(c(66284,13277),c(132409,132409))[3]$p.value
+a15<-prop.test(c(19203,14999),c(38385,38385))[3]$p.value
+a16<-prop.test(c(23337,2998),c(46652,46652))[3]$p.value
+
+
+####### right one ###########
+
+a1<-prop.test(c(11424,29336),c(60462,150900))[3]$p.value
+a2<-prop.test(c(12469,29338),c(66585,151838))[3]$p.value
+a3<-prop.test(c(12753,29338),c(57634,151122))[3]$p.value
+a4<-prop.test(c(753,29338),c(7269,151952))[3]$p.value
+a5<-prop.test(c(13809,29338),c(67180,151942))[3]$p.value
+a6<-prop.test(c(23141,29338),c(100985,152004))[3]$p.value
+a7<-prop.test(c(21193,29338),c(89287,151918))[3]$p.value
+a8<-prop.test(c(6195,29338),c(13096,152078))[3]$p.value
+c = c(a1, a2, a3, a4, a5, a6, a7, a8)
+
+
+c = c(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16)
+matrix(p.adjust(c, method = p.adjust.methods))
