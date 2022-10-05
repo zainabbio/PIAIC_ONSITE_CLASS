@@ -1,0 +1,51 @@
+﻿library(Pheatmap)
+library(xlsx)
+a=read.xlsx("E:/Analyses/NIGAB/Znb/Analyses/project/Data/Raw GEO data/GEO expression files/All.xlsx", 1)
+a1=read.xlsx("E:/Analyses/NIGAB/Znb/Analyses/project/Data/Raw GEO data/GEO expression files/All.xlsx", 2)
+a2=read.xlsx("E:/Analyses/NIGAB/Znb/Analyses/project/Data/Raw GEO data/GEO expression files/All.xlsx", 3)
+a3=read.xlsx("E:/Analyses/NIGAB/Znb/Analyses/project/Data/Raw GEO data/GEO expression files/All.xlsx", 4)
+
+library(FactoMineR)
+library(factoextra)
+setwd("E:/Analyses/Znb/Analyses/project/Data/Raw GEO data/GEO expression files PCA")
+a=read.xlsx("PCA.xlsx",1)
+rownames(a)=a[,1]
+pca <- PCA(a[,2:7], graph = FALSE)
+fviz_pca_ind(pca, habillage = as.factor(a$Type), label = "all", palette = c("Blue", "Green"), addEllipses = TRUE)+theme(text = element_text(size = 7.5))
+
+rownames(a1)=a1[,2]
+rownames(a2)=a2[,2]
+rownames(a3)=a3[,2]
+
+a=a[,-2]
+a=a[,-2]
+a=a[,-1]
+
+a1=a1[,-2]
+a1=a1[,-2]
+a1=a1[,-1]
+
+a2=a2[,-2]
+a2=a2[,-2]
+a2=a2[,-1]
+
+a3=a3[,-2]
+a3=a3[,-2]
+a3=a3[,-1]
+
+par(mfrow=c(2,2))
+p1=pheatmap(data.matrix(a), main="GSE47090", name="Gene expression")
+p2=pheatmap(data.matrix(a1), main="GSE70443", name="Gene expression")
+p3=pheatmap(data.matrix(a2), main="GSE45563", name="Gene expression")
+p4=pheatmap(data.matrix(a3), main="GSE87325", name="Gene expression")
+
+pdf("p2.pdf")
+par(mfrow = c(4,4))
+p1
+p2
+p3
+p4
+dev.off()
+
+
+
