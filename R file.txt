@@ -1,0 +1,91 @@
+﻿library(GEOquery)
+library(limma)
+library(umap)
+
+# load series and platform data from GEO
+
+gset <- getGEO("GSE87325", GSEMatrix =TRUE, getGPL=FALSE)
+if (length(gset) > 1) idx <- grep("GPL3802", attr(gset, "names")) else idx <- 1
+gset <- gset[[idx]]
+
+ex <- exprs(gset)
+write.csv(ex,"GSE87325.csv")
+
+
+
+
+
+
+library(xlsx)
+library(clusterProfiler)
+setwd("F://Znb//Analyses// cancer data//Data")
+
+a=read.xlsx("For analyses.xlsx",1)
+a=a[,1]
+
+
+b=read.csv("mf.csv", header = TRUE)
+en1 = enricher(a, pvalueCutoff = 0.05, pAdjustMethod = "none", minGSSize = 10, maxGSSize = 500, qvalueCutoff = 0.2, TERM2GENE=c(b[2],b[1]), TERM2NAME = c(b[2],b[3]) )
+en1[,]
+
+b=read.csv("bp.csv", header = TRUE)
+en2 = enricher(a, pvalueCutoff = 0.05, pAdjustMethod = "none", minGSSize = 10, maxGSSize = 500, qvalueCutoff = 0.2, TERM2GENE=c(b[2],b[1]), TERM2NAME = c(b[2],b[3]) )
+en2[,]
+
+b=read.csv("cc.csv", header = TRUE)
+en3 = enricher(a, pvalueCutoff = 0.05, pAdjustMethod = "none", minGSSize = 10, maxGSSize = 500, qvalueCutoff = 0.2, TERM2GENE=c(b[2],b[1]), TERM2NAME = c(b[2],b[3]) )
+en3[,]
+
+b=read.csv("kegg.csv", header = TRUE)
+en4 = enricher(a, pvalueCutoff = 0.05, pAdjustMethod = "none", minGSSize = 10, maxGSSize = 500, qvalueCutoff = 0.2, TERM2GENE=c(b[2],b[1]), TERM2NAME = c(b[2],b[3]) )
+en4[,]
+
+
+library(biomaRt)
+genes=c("170681", "37184868", "21747869", "5230784", "32128843", "44894797", "40317415", "30721846", "5230789", "32128884", "32128987", "4558483", "28411217", "26017212", "32128893", "32482141", "8918501", "10442760", "5669007", "218340", "6013195", "32128968", "21745455")
+
+
+
+library(xlsx)
+library(circlize)
+b=read.xlsx("E:/Analyses/NIGAB/Zainab/Analyses/cancer data/Data/Results/Circlize.xlsx",2)
+mylabs = c("3D", "6A", "2D", "6D", "6D", "Un", "6B", "1D", "5A", "6A", "7B")
+circos.initializeWithIdeogram(b, sort.chr = TRUE)
+circos.track(ylim = c(0, 1))
+circos.genomicRainfall(b, pch = 16, cex = 2, col = "green")
+
+b=read.xlsx("E:/Analyses/NIGAB/Zainab/Analyses/ cancer data/Data/Results/Circlize.xlsx",2)
+rownames(b)=b[,1]
+b=b[,-1]
+chordDiagram(b)
+
+
+
+
+
+chordDiagram(b, grid.col = grid.col, 
+    annotationTrack = c("grid", "axis"), annotationTrackHeight = mm_h(5))
+for(si in get.all.sector.index()) {
+    xlim = get.cell.meta.data("xlim", sector.index = si, track.index = 1)
+    ylim = get.cell.meta.data("ylim", sector.index = si, track.index = 1)
+    circos.text(mean(xlim), mean(ylim), si, sector.index = si, track.index = 1, 
+        facing = "bending.inside", niceFacing = TRUE, col = "white")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
