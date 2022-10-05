@@ -1,0 +1,108 @@
+﻿
+
+library(xlsx)
+a=read.xlsx("Gene expression.xlsx",3)
+rownames(a)=a[,1]
+a=a[,-1]
+head(a)
+
+library(edgeR)
+g=c(rep("T",8),rep("UT",3))
+g=as.factor(g)
+y <- DGEList(counts=a[,1:11], group=g)
+tail(a)
+str(a)
+y <- DGEList(counts=a[-9758,1:11], group=g)
+
+design <- model.matrix(~g, data=y$samples)
+nf <- calcNormFactors(y)
+d1 <- estimateGLMCommonDisp(y, design, verbose=TRUE)
+
+et1 <- exactTest(nf, dispersion=d1$common.dispersion)
+summary(decideTests(et1))
+
+plotMD(et1, hl.col = c("darkgreen","red","grey"))
+abline(h=c(-1, 1), col="blue")
+text(8.807609, -2.378465, cex=5, labels ="+", col="green")
+
+tb = et1$table
+st = tb[order(tb$PValue),]
+head(st)
+
+grep("NCU06961", rownames(et1$table))
+
+
+
+plotMD(et1, hl.col = c("darkgreen","red","grey"))
+abline(h=c(-4, 2.5), col="blue")
+text(1.824171388, -9.052783, cex=5, labels ="+", col="green")
+tb = tb[tb$PValue < 0.05,]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+y
+yy=y
+y <- estimateDisp(y, g)
+plotBCV(y)
+design = cbind(Grp1=1,Grp2vs1=c(0,0,0,0,0,0,0,0,1,1,1))
+fit=lmFit(a[-9758,1:11])
+fit=eBayes(fit)
+fit=lmFit(a[,1:11])
+fit=eBayes(fit)
+library(pheatmap)
+BiocManager::install('pheatmap')
+library(pheatmap)
+pheatmap(a)
+dim(a)
+pheatmap(a[-9758,1:11])
+fit
+pheatmap(topTable(fit))
+pheatmap(topTable(fit,number=66203))
+head(topTable(fit))
+topTable(fit)[,adj.P.Val<0.05]
+topTable(fit)[,topTable(fit)$adj.P.Val<0.05]
+topTable(fit)[topTable(fit)$adj.P.Val < 0.05,]
+dim(topTable(fit)[topTable(fit)$adj.P.Val < 0.05,])
+topTable(fit)
+topTable(fit)[,]
+topTable(fit,number=100)
+topTable(fit,number=1000)
+topTable(fit,number=10000)
+topTable(fit,number=2000)
+topTable(fit,number=5000)
+topTable(fit,number=10000)[,topTable(fit)$adj.P.Val<0.05]
+topTable(fit)[,topTable(fit)$adj.P.Val<0.05]
+dim(topTable(fit)[topTable(fit)$adj.P.Val < 0.05,])
+topTable(fit)[topTable(fit)$adj.P.Val < 0.05,]
+topTable(fit,number=100000)[topTable(fit)$adj.P.Val < 0.05,]
+tp=topTable(fit,number=100000)
+[tp$adj.P.Val < 0.05,]
+tp[tp$adj.P.Val < 0.05,]
+dim(tp[tp$adj.P.Val < 0.05,])
+tp=tp[tp$adj.P.Val < 0.05,]
+rn=rownames(tp)
+rn
+grep("NCU06961.1",rn)
+r=rownames(a)
+grep("NCU06961.1",r)
+length(rn)
+length(r)
+grep("NCU06961",r)
+grep("NCU06961",rn)
+tp[7083,]
